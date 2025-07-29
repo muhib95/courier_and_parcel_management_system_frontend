@@ -8,7 +8,7 @@ export default function RegisterBody() {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState("Customer");
+  const [role, setRole] = useState("customer");
 
   const handleRegister = async (e) => {
     setLoading(true);
@@ -34,7 +34,6 @@ export default function RegisterBody() {
 
       const data = await response.json();
       console.log("Registration successful:", data);
-      setSuccess(true);
     } catch (err) {
       console.error(err);
     } finally {
@@ -80,8 +79,8 @@ export default function RegisterBody() {
           onChange={(e) => setRole(e.target.value)}
           className="w-full px-3 py-1.5 border rounded focus:outline-none focus:ring focus:ring-blue-400"
         >
-          <option value="Delivery Agent">Delivery Agent</option>
-          <option value="Customer">Customer</option>
+          <option value="agent">Delivery Agent</option>
+          <option value="customer">Customer</option>
         </select>
 
         {/* Button */}
