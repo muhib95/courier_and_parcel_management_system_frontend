@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { signIn } from "next-auth/react";
 
 export default function RegisterBody() {
   const [loading, setLoading] = useState(false);
@@ -9,23 +10,25 @@ export default function RegisterBody() {
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("customer");
-
   const handleRegister = async (e) => {
     setLoading(true);
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:5000/api/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name,
-          phone,
-          password,
-          role,
-        }),
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/register`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name,
+            phone,
+            password,
+            role,
+          }),
+        }
+      );
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -34,6 +37,20 @@ export default function RegisterBody() {
 
       const data = await response.json();
       console.log("Registration successful:", data);
+      if (data?.success === true && data?.user) {
+        const result = await signIn("credentials", {
+          phone:data?.user?.phone,
+          password,
+          redirect: false,
+        });
+         if (result?.error) {
+        alert("Register failed");
+      } else {
+        console.log("Registration successful:", result);
+      }
+      }else{
+        alert(data?.message);
+      }
     } catch (err) {
       console.error(err);
     } finally {

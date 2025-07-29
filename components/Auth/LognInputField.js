@@ -1,36 +1,31 @@
-'use client';
+"use client";
 
 import { useState } from "react";
 import Link from "next/link";
+import { signIn } from "next-auth/react";
 
 export default function LogInInputField() {
   const [loading, setLoading] = useState(false);
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = async(e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     console.log("Phone:", phone);
     console.log("Password:", password);
-     try {
-      const response = await fetch("http://localhost:5000/api/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          phone,
-          password
-        }),
+    try {
+      const result = await signIn("credentials", {
+        phone,
+        password,
+        redirect: false,
+        
       });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Registration failed");
+      if (result?.error) {
+        alert("Login failed");
+      } else {
+        // redirect or do something after successful login
       }
-
-      const data = await response.json();
-      console.log("Registration successful:", data);
     } catch (err) {
       console.error(err);
     } finally {
