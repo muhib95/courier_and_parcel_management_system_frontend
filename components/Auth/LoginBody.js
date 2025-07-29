@@ -1,9 +1,10 @@
 import React from 'react';
+import LogInInputField from './LognInputField';
 
 const LoginBody = () => {
     return (
         <div>
-           LoginBody 
+           <LogInInputField/> 
         </div>
     );
 };
