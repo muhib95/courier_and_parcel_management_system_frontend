@@ -23,7 +23,7 @@ const Header = ({ openNav }) => {
     },
     {
       label: "Booking History",
-      link: "/customer/bookingHistory",
+      link: "/customer/bookinghistory",
     },
   ];
   return (
