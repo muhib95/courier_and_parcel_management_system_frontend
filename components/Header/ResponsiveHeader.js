@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import Header from "./Header";
 import MobileHeader from "./MobileHeader";
 
-const ResponsiveHeader = () => {
+const ResponsiveHeader = ({typeHeader,menu}) => {
   const [showNav, setShowNav] = useState(false);
   const handleNavOpen = () => setShowNav(true);
   const handleNavClose = () => setShowNav(false);
@@ -28,8 +28,8 @@ const ResponsiveHeader = () => {
   }, []);
   return (
     <div>
-      <Header openNav={handleNavOpen} />
-      <MobileHeader showNav={showNav} closeNav={handleNavClose} />
+      <Header openNav={handleNavOpen} typeHeader={typeHeader} menu={menu}/>
+      <MobileHeader showNav={showNav} closeNav={handleNavClose} navLinks={menu}/>
     </div>
   );
 };

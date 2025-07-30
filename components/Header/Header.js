@@ -3,7 +3,7 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { MdMenu } from "react-icons/md";
 
-const Header = ({ openNav }) => {
+const Header = ({ openNav,typeHeader, menu }) => {
   const [navBg, setNavBg] = useState(false);
   useEffect(() => {
     const onScrollListen = () => {
@@ -16,16 +16,7 @@ const Header = ({ openNav }) => {
     window.addEventListener("scroll", onScrollListen);
     return () => window.removeEventListener("scroll", onScrollListen);
   }, []);
-  const menu = [
-    {
-      label: "Book",
-      link: "/customer",
-    },
-    {
-      label: "Booking History",
-      link: "/customer/bookinghistory",
-    },
-  ];
+ 
   return (
     <div className="h-16 w-full bg-blue-800 flex items-center px-4 text-white z-[100]">
       <div className="flex justify-between items-center w-full">
@@ -37,7 +28,7 @@ const Header = ({ openNav }) => {
             <MdMenu />
           </button>
           <div>
-            <p>Customer</p>
+            <p>{typeHeader}</p>
           </div>
         </div>
         <div className="flex items-center justify-center space-x-2">
