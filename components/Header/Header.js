@@ -2,6 +2,7 @@
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { MdMenu } from "react-icons/md";
+import LogoutButton from "../Auth/SignOut";
 
 const Header = ({ openNav,typeHeader, menu }) => {
   const [navBg, setNavBg] = useState(false);
@@ -41,9 +42,7 @@ const Header = ({ openNav,typeHeader, menu }) => {
               </ul>
             ))}
           </div>
-          <div className="bg-red-800 flex justify-center items-center rounded-md">
-            <button className="px-2 cursor-pointer" onClick={()=>console.log('logout')}>LogOut</button>
-          </div>
+          <LogoutButton/>
         </div>
       </div>
     </div>

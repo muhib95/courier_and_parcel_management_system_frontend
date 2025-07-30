@@ -1,6 +1,7 @@
 // app/admin/booking/[viewId]/page.js
 
 import { auth } from "@/lib/auth";
+import { redirect } from "next/navigation";
 import React from "react";
 
 async function getAllAgent() {
@@ -95,6 +96,7 @@ export default async function ViewBooking({ params }) {
               body: JSON.stringify({ agentId }),
             }
           );
+          redirect(`/admin/booking/${parcel._id}`);
         }}
       >
         <label className="block mb-2 font-medium text-gray-700">
