@@ -3,8 +3,10 @@
 import { useState } from "react";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export default function RegisterBody() {
+    const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -46,7 +48,15 @@ export default function RegisterBody() {
          if (result?.error) {
         alert("Register failed");
       } else {
-        console.log("Registration successful:", result);
+        const sessionRes = await fetch("/api/auth/session");
+        const session = await sessionRes.json();
+        if (session?.user?.user?.role === "customer") {
+          router.replace("/customer");
+        } else if (session?.user?.user?.role === "agent") {
+          router.replace("/agent");
+        } else {
+          router.replace("/admin");
+        }
       }
       }else{
         alert(data?.message);

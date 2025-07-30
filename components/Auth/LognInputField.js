@@ -3,8 +3,10 @@
 import { useState } from "react";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export default function LogInInputField() {
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
@@ -18,13 +20,20 @@ export default function LogInInputField() {
         phone,
         password,
         redirect: false,
-        
       });
 
       if (result?.error) {
         alert("Login failed");
       } else {
-        // redirect or do something after successful login
+        const sessionRes = await fetch("/api/auth/session");
+        const session = await sessionRes.json();
+        if (session?.user?.user?.role === "customer") {
+          router.replace("/customer");
+        } else if (session?.user?.user?.role === "agent") {
+          router.replace("/agent");
+        } else {
+          router.replace("/admin");
+        }
       }
     } catch (err) {
       console.error(err);
