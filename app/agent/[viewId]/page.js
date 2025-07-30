@@ -1,34 +1,16 @@
 // app/admin/booking/[viewId]/page.js
 
 import { auth } from "@/lib/auth";
+import { redirect } from "next/navigation";
 import React from "react";
 
-async function getAllAgent() {
-  const session = await auth();
-  const token = session?.user?.token; // you can get it from env, cookies, or session
-
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/allAgent`,
-    {
-      cache: "no-store",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `${token}`,
-      },
-    }
-  );
-
-  const data = await res.json();
-  return data;
-}
-
 export default async function ViewBooking({ params }) {
-  const { viewId } =await params;
+  const { viewId } = await params;
   const session = await auth();
   const token = session?.user?.token;
 
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/singleBooking/${viewId}`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/agent/singleBooking/${viewId}`,
     {
       cache: "no-store", // for fresh data every time
       headers: {
@@ -43,8 +25,17 @@ export default async function ViewBooking({ params }) {
 
   const data = await res.json();
   const parcel = data?.parcel;
-  const agentsData = await getAllAgent();
-  const agents = agentsData?.users;
+  const statusOptions = [
+    "Booked",
+    "Assigned",
+    "Picked Up",
+    "In Transit",
+    "Delivered",
+    "Failed",
+  ];
+
+  const currentIndex = statusOptions.indexOf(parcel?.status); // returns 1
+  const availableOptions = statusOptions.slice(currentIndex + 1);
 
   return (
     <div className="max-w-4xl mx-auto p-4">
@@ -69,48 +60,40 @@ export default async function ViewBooking({ params }) {
         <div>
           <strong>Status:</strong> {parcel?.status}
         </div>
-        <div>
-          <strong>Assigned Agent Name:</strong>{" "}
-          {parcel.assignedAgent?.name || "Not assigned"}
-        </div>
-         <div>
-          <strong>Assigned Agent Phone:</strong>{" "}
-          {parcel.assignedAgent?.phone || "Not assigned"}
-        </div>
       </div>
-      {
-        parcel?.status === "Booked" &&
-        <form
+      <form
         action={async (formData) => {
           "use server";
-          const agentId = formData.get("agent");
+          const status = formData.get("status");
           await fetch(
-            `${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/${parcel._id}/assignAgent`,
+            `${process.env.NEXT_PUBLIC_BASE_URL}/api/agent/updateStatus/${parcel._id}`,
             {
               method: "PATCH",
               headers: {
                 "Content-Type": "application/json",
                 Authorization: `${token}`,
               },
-              body: JSON.stringify({ agentId }),
+              body: JSON.stringify({ status }),
             }
           );
+          redirect(`/agent/${parcel._id}`);
         }}
       >
         <label className="block mb-2 font-medium text-gray-700">
           Assign Delivery Agent
         </label>
         <select
-          name="agent"
+          name="status"
           className="w-full p-2 border rounded mb-4"
           defaultValue=""
+          required
         >
           <option value="" disabled>
-            Select an agent
+            Select a status
           </option>
-          {agents?.map((agent) => (
-            <option key={agent?._id} value={agent?._id}>
-              {agent?.name} - {agent?.phone}
+          {availableOptions?.map((status) => (
+            <option key={status} value={status}>
+              {status}
             </option>
           ))}
         </select>
@@ -122,9 +105,6 @@ export default async function ViewBooking({ params }) {
           Assign Agent
         </button>
       </form>
-      }
-
-      
     </div>
   );
 }

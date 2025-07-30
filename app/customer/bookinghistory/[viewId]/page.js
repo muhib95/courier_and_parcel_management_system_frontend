@@ -1,12 +1,9 @@
 import React from 'react';
 
-const BookingView = ({ params }) => {
-    const { viewId } = params;
+export default async function BookingView({ params }){
     return (
         <div>
            BookingView 
         </div>
     );
 };
-
-export default BookingView;
