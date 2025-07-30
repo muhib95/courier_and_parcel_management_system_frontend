@@ -6,7 +6,7 @@ const AgentLayout = ({ children }) => {
    const menu = [
     {
       label: "Home",
-      link: "/customer",
+      link: "/agent",
     },
   ];
   return (
