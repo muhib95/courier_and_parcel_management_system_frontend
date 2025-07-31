@@ -43,6 +43,7 @@ const AdminBookingList = ({ parcelData }) => {
               <th className="px-4 py-2 border">Pickup Address</th>
               <th className="px-4 py-2 border">Delivery Address</th>
               <th className="px-4 py-2 border">Parcel Type</th>
+              <th className="px-4 py-2 border">Price</th>
               <th className="px-4 py-2 border">Status</th>
               <th className="px-4 py-2 border">Action</th>
             </tr>
@@ -61,6 +62,9 @@ const AdminBookingList = ({ parcelData }) => {
                 </td>
                 <td className="px-4 py-2 border text-center align-middle">
                   {parcel?.parcelType}
+                </td>
+                 <td className="px-4 py-2 border text-center align-middle">
+                  {parcel?.price}
                 </td>
                 <td className="px-4 py-2 border text-center align-middle  text-green-800">
                   {parcel?.status}

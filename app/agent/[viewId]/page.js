@@ -58,6 +58,9 @@ export default async function ViewBooking({ params }) {
           <strong>Delivery Address:</strong> {parcel?.deliveryAddress}
         </div>
         <div>
+          <strong>Price:</strong> {parcel?.price}
+        </div>
+        <div>
           <strong>Status:</strong> {parcel?.status}
         </div>
       </div>
