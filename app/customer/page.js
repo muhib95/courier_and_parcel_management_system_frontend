@@ -4,7 +4,6 @@ import { useState } from "react";
 
 export default function ParcelBookingForm() {
   const { data: session, status } = useSession();
-  console.log(session?.user?.token);
   const [form, setForm] = useState({
     pickupAddress: "",
     pickupLat: "",
@@ -17,8 +16,32 @@ export default function ParcelBookingForm() {
     status: "Booked",
   });
 
-  const handleChange = (e) => {
+  const handleChange = async(e) => {
+    const { name, value } = e.target;
     setForm({ ...form, [e.target.name]: e.target.value });
+    if (name === "pickupAddress") {
+    const coords = await geocodeAddress(value);
+    if (coords) {
+      setForm((prev) => ({
+        ...prev,
+        pickupAddress: value,
+        pickupLat: coords.lat,
+        pickupLng: coords.lng,
+      }));
+    }
+  }
+
+  if (name === "deliveryAddress") {
+    const coords = await geocodeAddress(value);
+    if (coords) {
+      setForm((prev) => ({
+        ...prev,
+        deliveryAddress: value,
+        deliveryLat: coords.lat,
+        deliveryLng: coords.lng,
+      }));
+    }
+  }
   };
 
   const handleSubmit = async (e) => {
@@ -69,6 +92,27 @@ export default function ParcelBookingForm() {
     }
   };
 
+  const geocodeAddress = async (address) => {
+    if (!address || address.length < 4) {
+    return null;
+  }
+  const res = await fetch(
+    `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(
+      address
+    )}&format=json&limit=1&countrycodes=bd`
+  );
+  const data = await res.json();
+  console.log(data);
+  if (data.length > 0) {
+    return {
+      lat: data[0].lat,
+      lng: data[0].lon,
+    };
+  }
+  return null;
+};
+
+ 
   return (
     <div className="flex justify-center px-4 py-8 sm:px-6 lg:px-8 bg-gray-50 min-h-screen">
       <form
@@ -96,7 +140,7 @@ export default function ParcelBookingForm() {
         </div>
 
         {/* Pickup Location */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium mb-1">
               Pickup Latitude
@@ -127,7 +171,7 @@ export default function ParcelBookingForm() {
               required
             />
           </div>
-        </div>
+        </div> */}
 
         {/* Delivery Address */}
         <div>
@@ -146,7 +190,7 @@ export default function ParcelBookingForm() {
         </div>
 
         {/* Delivery Location */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium mb-1">
               Delivery Latitude
@@ -177,7 +221,7 @@ export default function ParcelBookingForm() {
               required
             />
           </div>
-        </div>
+        </div> */}
 
         {/* Parcel Type */}
         <div>

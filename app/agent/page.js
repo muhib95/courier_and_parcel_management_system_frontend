@@ -67,7 +67,7 @@ export default async function AgentBookingList() {
                         <Link href={`/agent/${parcel?._id}`}>
                     Update
                   </Link>
-                  <Link href={`/admin/booking/${parcel?._id}`}>
+                  <Link href={`/agent/mapview/${parcel?._id}`}>
                     Map
                   </Link>
                     </div>

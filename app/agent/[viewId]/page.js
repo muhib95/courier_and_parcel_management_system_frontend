@@ -1,5 +1,6 @@
 // app/admin/booking/[viewId]/page.js
 
+import UpdateStatusForm from "@/components/AgentUpdate/UpdateStatusForm";
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import React from "react";
@@ -64,7 +65,8 @@ export default async function ViewBooking({ params }) {
           <strong>Status:</strong> {parcel?.status}
         </div>
       </div>
-      <form
+      <UpdateStatusForm parcelId={parcel?._id} token={token} availableOptions={availableOptions}/>
+      {/* <form
         action={async (formData) => {
           "use server";
           const status = formData.get("status");
@@ -107,7 +109,7 @@ export default async function ViewBooking({ params }) {
         >
           Assign Agent
         </button>
-      </form>
+      </form> */}
     </div>
   );
 }
