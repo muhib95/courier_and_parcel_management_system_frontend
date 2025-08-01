@@ -9,7 +9,6 @@ const BookingList = ({ parcels }) => {
     const socket = io(`${process.env.NEXT_PUBLIC_BASE_URL}`, { transports: ["websocket"] });
 
     socket.on("connect", () => {
-      console.log("Connected:", socket.id);
       socket.emit("hello", "Hello from frontend");
     });
     socket.on("statusUpdated", (data) => {

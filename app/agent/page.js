@@ -23,8 +23,6 @@ async function getAllBooking() {
 export default async function AgentBookingList() {
   const parcels = await getAllBooking();
   const parcelList = parcels?.parcels;
-//   console.log(users);
-
   return (
     <div className="p-4">
       <h2 className="text-xl font-bold mb-4">Booking Assign List</h2>

@@ -24,7 +24,6 @@ async function getAllBooking() {
 export default async function BookingList() {
   const parcels = await getAllBooking();
   const parcelList = parcels?.parcels;
-//   console.log(users);
 
   return (
     <div>

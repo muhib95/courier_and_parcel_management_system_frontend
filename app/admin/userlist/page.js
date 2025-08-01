@@ -3,7 +3,6 @@ import Link from "next/link";
 import React from "react";
 async function getAllUser() {
   const session = await auth();
-  console.log(session?.user?.token);
   const token = session?.user?.token; // you can get it from env, cookies, or session
 
   const res = await fetch(
@@ -24,7 +23,6 @@ async function getAllUser() {
 export default async function UserList() {
   const users = await getAllUser();
   const userList = users?.users;
-  // console.log(parcels);
 
   return (
     <div className="p-4">

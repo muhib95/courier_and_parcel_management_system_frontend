@@ -13,8 +13,6 @@ export default function LogInInputField() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    console.log("Phone:", phone);
-    console.log("Password:", password);
     try {
       const result = await signIn("credentials", {
         phone,

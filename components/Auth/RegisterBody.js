@@ -38,7 +38,6 @@ export default function RegisterBody() {
       }
 
       const data = await response.json();
-      console.log("Registration successful:", data);
       if (data?.success === true && data?.user) {
         const result = await signIn("credentials", {
           phone:data?.user?.phone,

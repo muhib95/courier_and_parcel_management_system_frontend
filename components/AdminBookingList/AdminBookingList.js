@@ -11,7 +11,6 @@ const AdminBookingList = ({ parcelData }) => {
     });
 
     socket.on("connect", () => {
-      console.log("Connected:", socket.id);
       socket.emit("hello", "Hello from frontend");
     });
     socket.on("statusUpdated", (data) => {

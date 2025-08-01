@@ -102,7 +102,6 @@ export default function ParcelBookingForm() {
     )}&format=json&limit=1&countrycodes=bd`
   );
   const data = await res.json();
-  console.log(data);
   if (data.length > 0) {
     return {
       lat: data[0].lat,

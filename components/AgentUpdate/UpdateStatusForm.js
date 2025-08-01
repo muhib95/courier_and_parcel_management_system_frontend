@@ -21,7 +21,6 @@ export default function UpdateStatusForm({
       navigator.geolocation.getCurrentPosition(
         async (position) => {
           const { latitude, longitude } = position.coords;
-          console.log(latitude, longitude);
           // Send status + location
           await fetch(
             `${process.env.NEXT_PUBLIC_BASE_URL}/api/agent/updateStatus/${parcelId}`,

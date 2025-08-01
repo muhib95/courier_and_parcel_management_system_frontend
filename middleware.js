@@ -7,7 +7,6 @@ export default auth(async (req) => {
   const { pathname } = req.nextUrl;
   // 1. Public routes
   if (publicPaths.includes(pathname)) {
-    console.log(pathname);
     if (session) {
       const role = session.user?.user?.role;
       // Redirect logged-in user to role-based dashboard
