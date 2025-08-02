@@ -12,7 +12,9 @@ export default function LogInInputField() {
   const [password, setPassword] = useState("");
 
   const handleLogin = async (e) => {
+    
     e.preventDefault();
+    setLoading(true);
     try {
       const result = await signIn("credentials", {
         phone,
@@ -27,14 +29,18 @@ export default function LogInInputField() {
         const session = await sessionRes.json();
         if (session?.user?.user?.role === "customer") {
           router.replace("/customer");
+          return;
         } else if (session?.user?.user?.role === "agent") {
           router.replace("/agent");
+          return;
         } else {
           router.replace("/admin");
+          return;
         }
       }
     } catch (err) {
       console.error(err);
+      setLoading(false);
     } finally {
       setLoading(false);
     }
